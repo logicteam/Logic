@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Medical Books</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa; /* Light gray background */
+            color: #343a40; /* Dark text color */
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #007BFF; /* Blue background */
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #ffffff; /* White text color */
+        }
+
+        .navbar img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .navbar .menu-icon {
+            display: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #ffffff; /* White text color */
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar ul li {
+            padding: 0 10px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: #ffffff; /* White text color */
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .navbar ul li a:hover {
+            color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Main content styles */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #007BFF; /* Blue text color */
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            font-size: 1em;
+            border: 1px solid #007BFF; /* Blue border */
+            border-radius: 25px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        #book-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .book {
+            background: #ffffff; /* White background */
+            color: #343a40; /* Dark text color */
+            border: 1px solid #ced4da; /* Light gray border */
+            margin: 10px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .book:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .book img {
+            width: 100px;
+            height: 160px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .book h2 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #007BFF; /* Blue text color */
+        }
+
+        .book button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #0056b3; /* Darker blue background */
+            color: #ffffff; /* White text color */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .book button:hover {
+            background: #00418e; /* Darker blue on hover */
+        }
+
+        @media (max-width: 768px) {
+            .navbar .menu-icon {
+                display: block;
+            }
+
+            .navbar ul {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: #007BFF; /* Blue background */
+                text-align: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                z-index: 1;
+            }
+
+            .navbar ul.active {
+                display: flex;
+            }
+
+            .container {
+                padding-top: 100px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar h1 {
+                font-size: 1.2em;
+            }
+
+            .search-bar input {
+                width: 95%;
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .book h2 {
+                font-size: 1em;
+            }
+
+            .book img {
+                width: 80px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="https://raw.githubusercontent.com/logicteam/Logic/main/downloadfile-1.jpg" alt="Logic Medical Books Logo">
+        <h1>Logic Medical Books</h1>
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Find Your Favorite Medical Books</h1>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for books...">
+        </div>
+        <div id="book-list"></div>
+    </div>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.navbar ul');
+            menu.classList.toggle('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const url = 'https://logic-omega.vercel.app/file.json';
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const bookList = document.getElementById('book-list');
+                    const searchInput = document.getElementById('search-input');
+
+                    function displayBooks(books) {
+                        bookList.innerHTML = '';
+                        books.forEach(book => {
+                            const bookElement = document.createElement('div');
+                            bookElement.classList.add('book');
+                            
+                            const bookImage = document.createElement('img');
+                            bookImage.src = book.Image;
+                            
+                            const bookTitle = document.createElement('h2');
+                            bookTitle.textContent = book.Title;
+                            
+                            const bookButton = document.createElement('button');
+                            bookButton.textContent = 'Download';
+                            bookButton.onclick = () => window.open(book.Link, '_blank');
+                            
+                            bookElement.appendChild(bookImage);
+                            bookElement.appendChild(bookTitle);
+                            bookElement.appendChild(bookButton);
+                            
+                            bookList.appendChild(bookElement);
+                        });
+                    }
+
+                    displayBooks(data);
+
+                    searchInput.addEventListener('input', function() {
+                        const query = searchInput.value.toLowerCase();
+                        const filteredBooks = data.filter(book => book.Title.toLowerCase().includes(query));
+                        displayBooks(filteredBooks);
+                    });
+                })
+                .catch(error => console.error('Error fetching the book data:', error));
+        });
+    </script>
+</body>
+</html>
